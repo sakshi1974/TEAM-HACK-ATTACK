@@ -10,18 +10,35 @@ html { scroll-behavior: smooth; }
 body {
   @apply bg-gray-50 text-gray-900 font-sans;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Dark mode body */
+.dark body {
+  @apply bg-gray-950 text-gray-100;
 }
 
 /* ── Scrollbar ── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { @apply bg-gray-100; }
+.dark ::-webkit-scrollbar-track { @apply bg-gray-800; }
 ::-webkit-scrollbar-thumb { @apply bg-gray-300 rounded-full; }
 ::-webkit-scrollbar-thumb:hover { @apply bg-gray-400; }
+.dark ::-webkit-scrollbar-thumb { @apply bg-gray-600 rounded-full; }
+.dark ::-webkit-scrollbar-thumb:hover { @apply bg-gray-500; }
 
 /* ── Utility classes ── */
 @layer components {
   .card {
-    @apply bg-white rounded-xl border border-gray-100 shadow-card p-6;
+    @apply bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-card p-6 
+           transition-all duration-300 ease-out;
+  }
+  .card:hover {
+    @apply shadow-card-hover;
+    transform: translateY(-2px);
+  }
+  .card-static {
+    @apply bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 shadow-card p-6;
   }
   .btn-primary {
     @apply inline-flex items-center gap-2 px-4 py-2 bg-brand-600 text-white
@@ -29,37 +46,61 @@ body {
            transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
   }
   .btn-secondary {
-    @apply inline-flex items-center gap-2 px-4 py-2 bg-white text-gray-700 border border-gray-200
-           text-sm font-medium rounded-lg hover:bg-gray-50 active:scale-95
+    @apply inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-600
+           text-sm font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 active:scale-95
            transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
   }
   .btn-danger {
-    @apply inline-flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 border border-red-200
-           text-sm font-medium rounded-lg hover:bg-red-100 active:scale-95
+    @apply inline-flex items-center gap-2 px-4 py-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800
+           text-sm font-medium rounded-lg hover:bg-red-100 dark:hover:bg-red-900/40 active:scale-95
+           transition-all duration-150;
+  }
+  .btn-success {
+    @apply inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800
+           text-sm font-medium rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-900/40 active:scale-95
            transition-all duration-150;
   }
   .input {
-    @apply w-full px-3 py-2 border border-gray-200 rounded-lg text-sm text-gray-900
-           bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-500
+    @apply w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100
+           bg-white dark:bg-gray-800 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-500
            focus:border-transparent transition;
+  }
+  .input-error {
+    @apply border-red-300 dark:border-red-700 focus:ring-red-500 bg-red-50/30 dark:bg-red-900/10;
   }
   .badge-ok {
     @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold
-           bg-emerald-50 text-emerald-700 border border-emerald-200;
+           bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800;
   }
   .badge-alert {
     @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold
-           bg-red-50 text-red-700 border border-red-200;
+           bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800;
   }
   .badge-info {
     @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold
-           bg-blue-50 text-blue-700 border border-blue-200;
+           bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800;
+  }
+  .badge-warning {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold
+           bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800;
+  }
+  .badge-approved {
+    @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold
+           bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700;
+  }
+  .badge-rejected {
+    @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold
+           bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-300 border border-red-300 dark:border-red-700;
+  }
+  .badge-review {
+    @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold
+           bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-700;
   }
   .section-title {
-    @apply text-base font-semibold text-gray-900;
+    @apply text-base font-semibold text-gray-900 dark:text-white;
   }
   .section-desc {
-    @apply text-sm text-gray-500 mt-0.5;
+    @apply text-sm text-gray-500 dark:text-gray-400 mt-0.5;
   }
 }
 
@@ -68,7 +109,7 @@ body {
   @apply bg-brand-600 text-white rounded-2xl rounded-br-sm px-4 py-2.5 text-sm leading-relaxed;
 }
 .chat-bubble-ai {
-  @apply bg-white border border-gray-100 shadow-card text-gray-800 rounded-2xl rounded-bl-sm
+  @apply bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 shadow-card text-gray-800 dark:text-gray-200 rounded-2xl rounded-bl-sm
          px-4 py-2.5 text-sm leading-relaxed;
 }
 
@@ -78,6 +119,40 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 .animate-fade-in-up { animation: fadeInUp 0.3s ease forwards; }
+
+/* ── Scroll-triggered animations ── */
+.scroll-animate {
+  opacity: 0;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.scroll-animate.scroll-visible {
+  opacity: 1;
+}
+.scroll-animate.scroll-fade-up {
+  transform: translateY(30px);
+}
+.scroll-animate.scroll-fade-up.scroll-visible {
+  transform: translateY(0);
+}
+.scroll-animate.scroll-slide-right {
+  transform: translateX(30px);
+}
+.scroll-animate.scroll-slide-right.scroll-visible {
+  transform: translateX(0);
+}
+.scroll-animate.scroll-scale {
+  transform: scale(0.92);
+}
+.scroll-animate.scroll-scale.scroll-visible {
+  transform: scale(1);
+}
+
+/* ── Stagger delays for card groups ── */
+.stagger-1 { transition-delay: 0.05s; }
+.stagger-2 { transition-delay: 0.1s; }
+.stagger-3 { transition-delay: 0.15s; }
+.stagger-4 { transition-delay: 0.2s; }
+.stagger-5 { transition-delay: 0.25s; }
 
 /* ── Pulse dot for loading ── */
 @keyframes bounce-dot {
@@ -93,3 +168,125 @@ body {
 }
 .dot-flashing span:nth-child(2) { animation-delay: 0.2s; }
 .dot-flashing span:nth-child(3) { animation-delay: 0.4s; }
+
+/* ── Carousel ── */
+.carousel-container {
+  @apply relative overflow-hidden rounded-xl;
+}
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.carousel-slide {
+  min-width: 100%;
+  @apply px-1;
+}
+.carousel-dot {
+  @apply w-2 h-2 rounded-full bg-gray-300 transition-all duration-300 cursor-pointer;
+}
+.carousel-dot.active {
+  @apply w-6 bg-brand-600;
+}
+
+/* ── Toast notifications ── */
+.toast-container {
+  @apply fixed top-5 right-5 z-50 flex flex-col gap-3;
+  pointer-events: none;
+}
+.toast-container > * {
+  pointer-events: auto;
+}
+
+/* ── Metric card glow effect ── */
+.metric-card {
+  @apply relative overflow-hidden;
+}
+.metric-card::before {
+  content: '';
+  @apply absolute -top-1/2 -right-1/2 w-full h-full rounded-full opacity-10;
+  background: radial-gradient(circle, currentColor 0%, transparent 70%);
+}
+
+/* ── Risk gauge ── */
+.risk-gauge {
+  @apply relative w-32 h-16 mx-auto;
+}
+.risk-gauge-arc {
+  stroke-dasharray: 164;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Step indicator ── */
+.step-indicator {
+  @apply flex items-center;
+}
+.step-dot {
+  @apply w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold
+         transition-all duration-300 border-2;
+}
+.step-dot.active {
+  @apply bg-brand-600 text-white border-brand-600 shadow-glow-blue;
+}
+.step-dot.complete {
+  @apply bg-emerald-500 text-white border-emerald-500 shadow-glow-green;
+}
+.step-dot.pending {
+  @apply bg-gray-100 text-gray-400 border-gray-200;
+}
+.step-line {
+  @apply h-0.5 flex-1 mx-2 transition-all duration-500;
+}
+.step-line.active {
+  @apply bg-brand-600;
+}
+.step-line.complete {
+  @apply bg-emerald-500;
+}
+.step-line.pending {
+  @apply bg-gray-200;
+}
+
+/* ── Shimmer loading animation ── */
+.shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ── Login page background ── */
+.login-bg {
+  background: linear-gradient(135deg, #eff6ff 0%, #ffffff 50%, #f0fdf4 100%);
+}
+.dark .login-bg {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+}
+.login-card {
+  @apply bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-2xl shadow-card-hover border border-white/50 dark:border-gray-700/50 p-8;
+}
+.dark .login-card h1, .dark .login-card h2 { @apply text-white; }
+.dark .login-card p { @apply text-gray-400; }
+
+/* ── Chart animations ── */
+.recharts-wrapper {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: #f3f4f6 !important;
+}
+.dark .recharts-cartesian-grid-horizontal line,
+.dark .recharts-cartesian-grid-vertical line {
+  stroke: #374151 !important;
+}
+
+/* ── Dark mode shimmer ── */
+.dark .shimmer {
+  background: linear-gradient(90deg, #1f2937 25%, #374151 50%, #1f2937 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
